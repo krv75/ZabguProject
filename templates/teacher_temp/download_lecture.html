@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block title %}Загрузить лекцию{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <h1 class="mb-4">Загрузить лекцию</h1>
+
+    {# список уже загруженных лекций #}
+    {% if lectures %}
+        <div class="mb-4">
+            <h3>Уже загруженные лекции</h3>
+            <ul class="list-group">
+                {% for obj in lectures %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div>
+                            <strong>{{ obj.title }}</strong><br>
+                            <small>Дисциплина: {{ obj.subject }}</small><br>
+                            <small>Загружено: {{ obj.uploaded_at|date:"d.m.Y H:i" }}</small>
+                        </div>
+                        <a href="{{ obj.file.url }}" class="btn btn-sm btn-outline-primary" target="_blank">
+                            Открыть файл
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% else %}
+        <p>Пока нет загруженных лекций.</p>
+    {% endif %}
+
+    <hr class="my-4">
+
+    <h3 class="mb-3">Добавить новую лекцию</h3>
+
+    <form method="post" enctype="multipart/form-data" class="row g-3">
+        {% csrf_token %}
+        <div class="col-md-6">
+            <label for="id_subject" class="form-label">Дисциплина</label>
+            <input type="text" name="subject" id="id_subject" class="form-control" required>
+        </div>
+
+        <div class="col-md-6">
+            <label for="id_title" class="form-label">Название лекции</label>
+            <input type="text" name="title" id="id_title" class="form-control" required>
+        </div>
+
+        <div class="col-12">
+            <label for="id_file" class="form-label">Файл лекции</label>
+            <input type="file" name="file" id="id_file" class="form-control" required>
+        </div>
+
+        <div class="col-12">
+            <button type="submit" class="btn btn-primary">Загрузить</button>
+            <a href="{% url 'teacher:teacher_menu' %}" class="btn btn-secondary ms-2">
+                ← В кабинет преподавателя
+            </a>
+        </div>
+    </form>
+</div>
+{% endblock %}

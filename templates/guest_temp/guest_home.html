@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Гостевой доступ{% endblock %}
+
+{% block content %}
+<div class="page-bg theme-guest">
+  <div class="container">
+    <div class="content-card content-card--compact">
+
+ <div class="row g-4">
+
+  <!-- ЛЕВАЯ КОЛОНКА: НОВОСТИ -->
+  <div class="col-12 col-lg-8">
+    <h3 class="mb-3">Новости кафедры</h3>
+
+    <div class="row row-cols-1 row-cols-md-2 g-3">
+      {% for n in news_list %}
+        <div class="col">
+          <article class="news-tile">
+            <a class="news-tile-link" href="{% url 'guest:news_detail' n.pk %}">
+              {% if n.image %}
+                <img src="{{ n.image.url }}" class="news-tile-img" alt="{{ n.title }}">
+              {% else %}
+                <div class="news-tile-img news-tile-noimg">Нет фото</div>
+              {% endif %}
+              <div class="news-tile-caption">
+                <h6 class="news-tile-title">{{ n.title }}</h6>
+              </div>
+            </a>
+          </article>
+        </div>
+      {% empty %}
+        <div class="col-12">
+          <div class="alert alert-secondary mb-0">Пока нет новостей.</div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- ПРАВАЯ КОЛОНКА: РАЗДЕЛЫ -->
+  <div class="col-12 col-lg-4">
+    <h3 class="mb-3">Разделы</h3>
+
+    <div class="row row-cols-2 g-2">
+      {% for cat in categories %}
+      <div class="col">
+        <div class="mini-card card h-100 shadow-sm position-relative">
+
+          <div class="mini-imgwrap">
+            {% if cat.image %}
+              <img src="{{ cat.image.url }}" class="mini-image" alt="{{ cat.title }}">
+            {% else %}
+              <div class="mini-noimg">Нет фото</div>
+            {% endif %}
+          </div>
+
+          <div class="card-body p-2 text-center">
+            <span class="mini-title">{{ cat.title }}</span>
+            <a href="{% url 'guest:guest_category_detail' cat.pk %}" class="stretched-link"></a>
+          </div>
+
+        </div>
+      </div>
+      {% empty %}
+      <div class="col-12">
+        <div class="alert alert-secondary mb-0">Разделы не добавлены.</div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+</div>
+
+    </div>
+  </div>
+</div>
+{% endblock %}

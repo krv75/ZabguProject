@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Главное меню{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-5">
+
+    {% for category in categories %}
+      <div class="col">
+        <div class="card h-100">
+
+          {% if category.image %}
+            <img src="{{ category.image.url }}" class="card-img-top" alt="{{ category.title }}">
+          {% else %}
+            <img src="{% static 'default_category.jpg' %}" class="card-img-top" alt="Нет изображения">
+          {% endif %}
+
+          <div class="card-body">
+            <a href="{% url 'guest:guest_category_detail' category.pk %}"
+               class="stretched-link text-decoration-none">
+              {{ category.title }}
+            </a>
+          </div>
+
+        </div>
+      </div>
+    {% endfor %}
+
+  </div>
+</div>
+{% endblock %}
+
+
+

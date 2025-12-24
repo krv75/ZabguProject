@@ -1,0 +1,85 @@
+{% load static %}
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+  <title>{% block title %}{% endblock %}</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}?v=5">
+
+</head>
+
+<body class="theme-default {% block body_class %}{% endblock %}">
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+  <div class="container">
+
+
+    <a class="navbar-brand p-0" href="{% url 'guest:guest_category_list' %}">
+      <img src="{% static 'ZabGU_logo.png' %}" width="55" alt="ЗабГУ">
+      <img src="{% static 'kav_logo.png' %}" width="55" alt="Кафедра">
+    </a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+    <div class="navbar-nav">
+        <a class="nav-link" href="{% url 'guest:guest_category_list' %}">Главное меню</a>
+        <a class="nav-link" href="{% url 'teacher:teacher_menu' %}">Преподавателю</a>
+        <a class="nav-link" href="{% url 'student:student-menu' %}">Студенту</a>
+        <a href="/admin/" class="btn btn-primary">Панель администратора</a>
+    </div>
+    </div>
+
+<ul class="nav justify-content-end">
+  <li class="nav-item">
+    <a class="nav-link active p-0" aria-current="page" href="https://vk.com/histeducationzabgu"
+    target="blank">
+        <img src="{% static 'logo_VK.png' %}"
+        alt="VK"
+        style="width:32px" >
+    </a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#">Link</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#">Link</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+  </li>
+</ul>
+
+  </div>
+</nav>
+
+<main class="page-bg">
+  <div class="container">
+    <div class="content-card">
+      {% block content %}{% endblock %}
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer mt-auto">
+  <div class="container py-3 d-flex flex-column flex-md-row gap-2 justify-content-between align-items-center">
+    <div class="text-muted small">
+      © {{ now|date:"Y" }} ЗабГУ • Кафедра истории
+    </div>
+
+    <div class="d-flex gap-3 small">
+      <a class="footer-link" href="{% url 'guest:guest_category_list' %}">Главная</a>
+      <a class="footer-link" href="{% url 'guest:guest_category_list' %}">Контакты</a>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

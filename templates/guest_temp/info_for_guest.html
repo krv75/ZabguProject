@@ -1,0 +1,147 @@
+{% extends 'base.html' %}
+{% block title %}Главное меню{% endblock %}
+
+{% block content %}
+<h2>{{ category.title }}</h2>
+
+<nav class="mb-3">
+    <a href="{% url 'guest:guest_category_list' %}" class="btn btn-secondary me-2">
+        ← Назад к категориям
+    </a>
+</nav>
+
+{# КНОПКИ ДЛЯ РАЗДЕЛОВ #}
+{% if department_info %}
+<div class="btn-group mb-4" role="group" aria-label="Разделы о кафедре">
+    <button type="button" class="btn btn-outline-primary section-btn" data-target="#history-section">
+        История кафедры
+    </button>
+    <button type="button" class="btn btn-outline-primary section-btn" data-target="#study-section">
+        Учебная деятельность
+    </button>
+    <button type="button" class="btn btn-outline-primary section-btn" data-target="#science-section">
+        Научная деятельность
+    </button>
+    <button type="button" class="btn btn-outline-primary section-btn" data-target="#education-section">
+        Воспитательная деятельность
+    </button>
+</div>
+{% endif %}
+
+<hr>
+
+{# БЛОКИ С ТЕКСТОМ — СКРЫТЫ ПО УМОЛЧАНИЮ #}
+
+{% if department_info %}
+<div id="history-section" class="section-block d-none">
+    <h3>История кафедры</h3>
+    <p>{{ department_info.history|linebreaks }}</p>
+</div>
+
+<div id="study-section" class="section-block d-none">
+    <h3>Учебная деятельность</h3>
+    <p>{{ department_info.learning_activities|linebreaks }}</p>
+</div>
+
+<div id="science-section" class="section-block d-none">
+    <h3>Научная деятельность</h3>
+    <p>{{ department_info.scientific_activities|linebreaks }}</p>
+</div>
+
+<div id="education-section" class="section-block d-none">
+    <h3>Воспитательная деятельность</h3>
+    <p>{{ department_info.educational_activities|linebreaks }}</p>
+</div>
+{% endif %}
+
+
+{% if contact_data %}
+<hr>
+<p><strong>Адрес:</strong> {{ contact_data.address }}</p>
+<p><strong>Телефон:</strong> {{ contact_data.phone }}</p>
+<p><strong>E-mail:</strong> {{ contact_data.email }}</p>
+<p><strong>Заведующий кафедрой:</strong> {{ contact_data.head_department }}</p>
+{% endif %}
+
+{% if teachers %}
+<hr>
+<div class="accordion" id="teachersAccordion">
+    {% for teacher in teachers %}
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="heading{{ teacher.id }}">
+            <button class="accordion-button collapsed"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#collapse{{ teacher.id }}"
+                    aria-expanded="false"
+                    aria-controls="collapse{{ teacher.id }}">
+                {{ teacher.full_name }}
+            </button>
+        </h2>
+        <div id="collapse{{ teacher.id }}"
+             class="accordion-collapse collapse"
+             aria-labelledby="heading{{ teacher.id }}"
+             data-bs-parent="#teachersAccordion">
+            <div class="accordion-body">
+                {{ teacher.profile|linebreaks }}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+    {% endif %}
+
+{% if news_list %}
+  <div class="container">
+    <div class="row">
+      {% for news in news_list %}
+        <div class="col-12 col-md-6 col-lg-4 mb-3 d-flex">
+          <div class="card h-100 w-100" >
+            <div class="card-img-top text-center p-2">
+                <img src="{{ news.image.url }}" alt="..." class="card-img-top"
+                style="max-height: 200px;">
+              <h5 class="card-title">{{ news.title }}</h5>
+              <a href="{% url 'guest:news_detail' pk=news.pk %}" class="btn btn-outline-primary" >
+                Читать новость
+              </a>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endif %}
+
+
+{# JS ДЛЯ ПЕРЕКЛЮЧЕНИЯ РАЗДЕЛОВ #}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const buttons = document.querySelectorAll('.section-btn');
+    const sections = document.querySelectorAll('.section-block');
+
+    function showSection(targetId) {
+        sections.forEach(section => {
+            section.classList.add('d-none'); // скрыть все
+        });
+        const target = document.querySelector(targetId);
+        if (target) {
+            target.classList.remove('d-none'); // показать нужный
+        }
+    }
+
+    buttons.forEach(button => {
+        button.addEventListener('click', function () {
+            const targetId = this.getAttribute('data-target');
+            showSection(targetId);
+        });
+    });
+
+    // по умолчанию открыть первый раздел, если есть кнопки
+    if (buttons.length > 0) {
+        const firstTarget = buttons[0].getAttribute('data-target');
+        showSection(firstTarget);
+    }
+});
+</script>
+
+{% endblock %}

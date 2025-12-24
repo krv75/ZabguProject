@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}Мои методические материалы{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <h1 class="mb-4">Мои методические материалы</h1>
+
+    {% if materials %}
+        <ul class="list-group mb-4">
+            {% for obj in materials %}
+                <li class="list-group-item">
+                    <strong>{{ obj.title }}</strong><br>
+                    <small>Дисциплина: {{ obj.subject }}</small>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>У вас пока нет методических материалов.</p>
+    {% endif %}
+
+    <hr class="my-4">
+
+    <h3 class="mb-3">Добавить методический материал</h3>
+
+    <form method="post" class="row g-3">
+        {% csrf_token %}
+        <div class="col-md-6">
+            <label for="id_subject" class="form-label">Дисциплина</label>
+            <input type="text" name="subject" id="id_subject" class="form-control" required>
+        </div>
+
+        <div class="col-md-6">
+            <label for="id_title" class="form-label">Название</label>
+            <input type="text" name="title" id="id_title" class="form-control" required>
+        </div>
+
+        <div class="col-12">
+            <button type="submit" class="btn btn-primary">Сохранить</button>
+            <a href="{% url 'teacher:teacher_menu' %}" class="btn btn-secondary ms-2">
+                ← В кабинет преподавателя
+            </a>
+        </div>
+    </form>
+</div>
+{% endblock %}

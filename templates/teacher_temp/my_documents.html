@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}Мои документы{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <h1 class="mb-4">Мои документы</h1>
+
+    {% if lectures %}
+        <ul class="list-group mb-4">
+            {% for obj in lectures %}
+                <li class="list-group-item">
+                    <strong>{{ obj.title }}</strong><br>
+                    <small>Вид документа: {{ obj.subject }}</small>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>У вас пока нет документов.</p>
+    {% endif %}
+
+    <hr class="my-4">
+
+    <h3 class="mb-3">Добавить документ</h3>
+
+    <form method="post" class="row g-3">
+        {% csrf_token %}
+        <div class="col-md-6">
+            <label for="id_subject" class="form-label">Вид документа</label>
+            <input type="text" name="subject" id="id_subject" class="form-control" required>
+        </div>
+
+        <div class="col-md-6">
+            <label for="id_title" class="form-label">Название документа</label>
+            <input type="text" name="title" id="id_title" class="form-control" required>
+        </div>
+
+        <div class="col-12">
+            <button type="submit" class="btn btn-primary">Сохранить</button>
+            <a href="{% url 'teacher:teacher_menu' %}" class="btn btn-secondary ms-2">
+                ← В кабинет преподавателя
+            </a>
+        </div>
+    </form>
+</div>
+{% endblock %}

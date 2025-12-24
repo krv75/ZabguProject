@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}Личный кабинет преподавателя{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-5">
+
+        {% for elem in elements %}
+        <div class="col">
+            <div class="card" style="width: 18rem;">
+                <img src="https://fastly.picsum.photos/id/110/5000/3333.jpg?hmac=AvUBrnXG4ebvrtC08T95vEzD1I9SryZ8KSQ4iJ9tb9s"
+                     class="card-img-top" alt="...">
+                <div class="card-body">
+                    <a href="{% url elem.url_name %}">
+                        {{ elem.title }}
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+    </div>
+</div>
+{% endblock %}
+
+

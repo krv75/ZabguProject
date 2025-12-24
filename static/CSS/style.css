@@ -1,0 +1,215 @@
+/* ===== Базовая подложка страницы ===== */
+.page-bg {
+  min-height: calc(100vh - 56px);
+  padding: 40px 0 20px;
+  position: relative;
+}
+
+/* Фон-картинка */
+.page-bg::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: var(--page-bg-image);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  filter: blur(0px);
+  z-index: -2;
+}
+
+/* Оверлей поверх фона */
+.page-bg::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: var(--page-bg-overlay);
+  z-index: -1;
+}
+
+/* Карточка контента (читаемость) */
+.content-card {
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 16px;
+  padding: 22px; /* компактнее */
+  box-shadow: 0 10px 30px rgba(0,0,0,.12);
+  backdrop-filter: blur(6px);
+}
+
+/* ===== Темы (разные фоны для ролей) ===== */
+.theme-default {
+  --page-bg-image: url("../img/bg-default.jpg");
+  --page-bg-overlay: rgba(244, 246, 249, 0.75);
+}
+
+.theme-guest {
+  --page-bg-image: url("../img/bg-guest.jpg");
+  --page-bg-overlay: rgba(240, 248, 255, 0.78);
+}
+
+.theme-teacher {
+  --page-bg-image: url("../img/bg-teacher.jpg");
+  --page-bg-overlay: rgba(238, 242, 255, 0.78);
+}
+
+.theme-student {
+  --page-bg-image: url("../img/bg-student.jpg");
+  --page-bg-overlay: rgba(236, 253, 245, 0.78);
+}
+
+/* ===== Navbar мелочи ===== */
+.navbar-brand img { margin-right: 6px; }
+.nav-link { font-weight: 500; }
+.nav-link:hover { text-decoration: underline; }
+
+/* ===== Footer ===== */
+.site-footer {
+  background: rgba(255,255,255,0.9);
+  border-top: 1px solid rgba(0,0,0,0.08);
+}
+.footer-link {
+  color: #495057;
+  text-decoration: none;
+}
+.footer-link:hover { text-decoration: underline; }
+
+/* ===== Универсальный стиль карточек ===== */
+.card {
+  border-radius: 14px;
+  overflow: hidden;
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px rgba(0,0,0,.10);
+}
+
+/* ===== Список преподавателей ===== */
+.teacher-item {
+  border: 1px solid rgba(0,0,0,.08);
+  border-radius: 14px;
+  padding: 14px;
+  background: rgba(255,255,255,0.92);
+}
+.teacher-item + .teacher-item { margin-top: 12px; }
+
+.teacher-name { font-weight: 700; margin: 0; }
+.teacher-meta { margin: 6px 0 0; color: #6c757d; font-size: 0.95rem; }
+
+.teacher-actions .btn { border-radius: 12px; }
+
+.teacher-photo {
+  width: 100%;
+  height: 180px;
+  object-fit: contain;
+  background: #f8f9fa;
+}
+
+/* ===================== */
+/* НОВОСТИ: прямоугольные плитки (фото + заголовок) */
+/* ===================== */
+
+/* Контейнер плитки */
+.news-tile {
+  border-radius: 10px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  height: 260px; /* ЕДИНАЯ ВЫСОТА ПЛИТКИ */
+  display: flex;
+  flex-direction: column;
+}
+
+.news-tile:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 26px rgba(0,0,0,.12);
+}
+
+/* ссылка должна занимать ВЕСЬ блок */
+.news-tile-link {
+  display: block;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  text-decoration: none;
+  color: inherit;
+}
+
+.news-tile-img{
+  width: 100%;
+  height: 160px;
+  object-fit: contain;   /* целиком */
+  background: #f1f1f1;   /* фон под поля */
+}
+
+/* если нет фото */
+.news-tile-noimg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6c757d;
+  font-size: 0.9rem;
+  background: #e9ecef;
+}
+
+/* подпись поверх фото */
+.news-tile-caption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 10px 12px;
+  background: linear-gradient(
+    to top,
+    rgba(0,0,0,.70),
+    rgba(0,0,0,.25),
+    rgba(0,0,0,0)
+  );
+}
+
+.news-tile-title {
+  margin: 0;
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.92rem;
+  line-height: 1.2;
+  text-shadow: 0 1px 3px rgba(0,0,0,.6);
+
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ===================== */
+/* Разделы — мелкие плитки (КАРТИНКА ЦЕЛИКОМ) */
+/* ===================== */
+.mini-card {
+  border-radius: 12px;
+  overflow: hidden;
+  background: rgba(255,255,255,0.96);
+  border: 1px solid rgba(0,0,0,.06);
+  position: relative;
+}
+
+/* ВАЖНО: здесь исправление — contain вместо cover */
+.mini-image {
+  height: 120px;           /* было 90 — так картинка читаемее */
+  width: 100%;
+  object-fit: contain;     /* целиком, без обрезки */
+  background: #f1f1f1;     /* фон под поля */
+  display: block;
+}
+
+.mini-title{
+  display: block;
+  font-size: .78rem;
+  font-weight: 700;
+  color: #333;
+  line-height: 1.2;
+  text-decoration: none;
+}
+
+.mini-title:hover {
+  text-decoration: underline;
+}
