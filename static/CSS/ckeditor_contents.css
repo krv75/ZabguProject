@@ -1,0 +1,9 @@
+/* Красная строка в редакторе */
+p {
+  text-indent: 1.5em;
+}
+
+.dept-text p {
+    text-indent: 1.5em;
+    margin: 0 0 0.75em 0;
+}
